@@ -80,48 +80,13 @@ let query = body.query;
                   
           `
           const response = await qa.call({query: question })
-          
-//fetching data from microservice 1;------------------------------------------
-   // Your request body data
-   console.log("request send to external api.........")
-   const requestBody = {
-    query
-  };
+          console.log(response)
 
-  // Making a POST request to the external API
-  const externalApiResponse = await fetch('http://127.0.0.1:5000/search', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
 
-  // Check if the request was successful
-  if (!externalApiResponse.ok) {
-     console.log("external api data not available.....$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-  }
 
-  // Parse the response from the external API
-  const externalApiData = await externalApiResponse.json();
-  console.log(externalApiData)
-  response.similiarItems=externalApiData.data;
-//''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-          //updating chat data in database
-          
-          let newChat ={user:query,bot:response}
-          let data = await ChatModel.findByIdAndUpdate(
-            body.chatId, 
-            { $push: { data: newChat } }, 
-            { new: true, useFindAndModify: false }
-          );
-      
-        }
-        
 
-//)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
-    //   io.emit("card1",data)
-    })
+
+    }
 
 })
 
