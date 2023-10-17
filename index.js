@@ -81,7 +81,14 @@ let query = body.query;
           `
           const response = await qa.call({query: question })
           console.log(response)
-
+          let newChat ={user:query}
+          let data = await ChatModel.findByIdAndUpdate(
+            body.chatId, 
+            { $push: { data: newChat } }, 
+            { new: true, useFindAndModify: false }
+          );
+      
+        }
 
 
 
