@@ -81,13 +81,45 @@ let query = body.query;
           `
           const response = await qa.call({query: question })
           console.log(response)
-          let newChat ={user:query}
-          let data = await ChatModel.findByIdAndUpdate(
-            body.chatId, 
-            { $push: { data: newChat } }, 
+
+                // let pushingQueryToDatabase = await ChatModel.findByIdAndUpdate(
+          //   body.chatId, 
+          //   { $push: { data: {user:query} } }, 
+          //   { new: true, useFindAndModify: false }
+          // );
+          // let pushingResponseToDatabase = await ChatModel.findByIdAndUpdate(
+          //   body.chatId, 
+          //   { $push: { data: {bot:response.text} } }, 
+          //   { new: true, useFindAndModify: false }
+          // );
+
+          //combining above 2 operations 
+          let combinedPush = await ChatModel.findByIdAndUpdate(
+            body.chatId,
+            { 
+                $push: { 
+                    data: {
+                        $each: [
+                            { role:"user",text:query},
+                            { role:"bot",text:response.text}
+                        ]
+                    } 
+                }
+            },
             { new: true, useFindAndModify: false }
-          );
-      
+        );
+        console.log(combinedPush)
+
+
+
+
+
+
+
+
+
+
+            
         }
 
 
